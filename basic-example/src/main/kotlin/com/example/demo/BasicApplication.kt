@@ -2,13 +2,9 @@ package com.example.demo
 
 import com.example.demo.configuration.AppConfiguration
 import com.example.demo.configuration.AppModule
+import com.example.demo.configuration.configureApplicationJsonObjectMapper
 import com.example.demo.configuration.createApplicationSwaggerBundle
 import com.example.demo.logging.logger
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import io.dropwizard.Application
 import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
@@ -28,24 +24,7 @@ class BasicApplication : Application<AppConfiguration>() {
         super.initialize(bootstrap)
 
         // must be first, to be able to parse json/yml config files !!!!
-        //bootstrap.objectMapper = createApplicationJsonObjectMapper()
-
-
-        // must be first, to be able to parse json/yml config files !!!!
-        bootstrap.objectMapper
-                .registerModules(
-                        KotlinModule(),
-                        JavaTimeModule(),
-                        Jdk8Module(),
-                        ParameterNamesModule()
-                )
-                .disable(
-                        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,
-                        SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS
-                )
-
-
-
+        configureApplicationJsonObjectMapper(bootstrap.objectMapper)
 
         bootstrap.addBundle(createApplicationSwaggerBundle { it.swaggerBundleConfiguration })
         bootstrap.addBundle(createGuiceBundle())
@@ -91,13 +70,4 @@ class BasicApplication : Application<AppConfiguration>() {
 
                 .build()
     }
-    /*
-    private fun createSwaggerBundle(): SwaggerBundle<AppConfiguration> {
-        return object : SwaggerBundle<AppConfiguration>() {
-            override fun getSwaggerBundleConfiguration(configuration: AppConfiguration): SwaggerBundleConfiguration {
-                return configuration.swaggerBundleConfiguration
-            }
-        }
-    }
-    */
 }
