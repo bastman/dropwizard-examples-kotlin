@@ -1,0 +1,4 @@
+include 'common'
+include 'basic-example'
+findProject(':basic-example')?.name = 'basic'
+

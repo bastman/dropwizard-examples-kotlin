@@ -1,0 +1,25 @@
+dependencies {
+    compile project(':common')
+
+    // fp: funktionale
+    compile "org.funktionale:funktionale-try:$funktionaleVersion"
+
+    // dropwizard
+    compile group: 'io.dropwizard', name: 'dropwizard-client', version: dropwizardVersion
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+    //compile group: 'io.dropwizard', name: 'dropwizard-auth', version: dropwizardVersion
+    //compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: dropwizardVersion
+
+    // dropwizard: guicey
+    compile "ru.vyarus:dropwizard-guicey:$dropwizardGuiceyVersion"
+    //compile 'ru.vyarus.guicey:guicey-jdbi:0.3.0'
+
+    // dropwizard: swagger
+    compile group: 'com.smoketurner', name: 'dropwizard-swagger', version: dropwizardSwaggerVersion
+
+    // testing
+    testCompile project(':common')
+    // testing dropwizard & guice
+    testCompile group: 'io.dropwizard', name: 'dropwizard-testing', version: dropwizardVersion
+    testCompile group: 'com.google.inject.extensions', name: 'guice-testlib', version: guiceTestlibVersion
+}
