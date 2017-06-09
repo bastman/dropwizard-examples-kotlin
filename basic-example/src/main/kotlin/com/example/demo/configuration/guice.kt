@@ -14,6 +14,10 @@ class AppModule : DropwizardAwareModule<AppConfiguration>() {
     @Provides @Singleton
     fun provideConfigPaypal(configuration: AppConfiguration): ConfigPaypal = configuration.paypal
 
+    @Provides @Singleton
+    fun provideConfigFacebook(configuration: AppConfiguration): ConfigFacebook {
+        return configuration.facebook
+    }
 
     override fun configure() {
         val configuration = configuration() // access configuration

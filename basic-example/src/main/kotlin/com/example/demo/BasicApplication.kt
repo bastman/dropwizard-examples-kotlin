@@ -5,11 +5,19 @@ import com.example.demo.configuration.AppModule
 import com.example.demo.configuration.configureApplicationJsonObjectMapper
 import com.example.demo.configuration.createApplicationSwaggerBundle
 import com.example.demo.logging.logger
+import com.google.inject.Stage
 import io.dropwizard.Application
 import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import ru.vyarus.dropwizard.guice.GuiceBundle
 import ru.vyarus.dropwizard.guice.injector.lookup.InjectorLookup
+import ru.vyarus.guice.validator.ImplicitValidationModule
+import java.time.Duration
+import java.util.concurrent.TimeUnit
+
 
 fun main(args: Array<String>) {
     BasicApplication().run(*args)
@@ -46,7 +54,11 @@ class BasicApplication : Application<AppConfiguration>() {
                 // enable classpath scanning
                 .enableAutoConfig(javaClass.`package`.name)
 
-                .modules(AppModule())
+                .modules(
+                    // bean validation
+                    ImplicitValidationModule(), // ????
+                    AppModule()
+                )
 
                 // enable @WebServlet, @WebFilter, @WebListener
                 .useWebInstallers()
@@ -67,7 +79,6 @@ class BasicApplication : Application<AppConfiguration>() {
                 // enable HkDebugBundle: strictScopeControl
                 // throw ex if sth wrong with hk vs guice
                 .strictScopeControl()
-
-                .build()
+                .build(Stage.PRODUCTION)
     }
 }

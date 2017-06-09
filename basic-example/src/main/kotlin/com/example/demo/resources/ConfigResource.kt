@@ -1,6 +1,7 @@
 package com.example.demo.resources
 
 
+import com.example.demo.configuration.ConfigFacebook
 import com.example.demo.configuration.ConfigGoogle
 import com.example.demo.configuration.ConfigPaypal
 import com.example.demo.logging.logger
@@ -18,7 +19,8 @@ import javax.ws.rs.core.Response
 @Api("/config")
 class ConfigResource @Inject constructor(
         private val configPaypal: ConfigPaypal,
-        private val configGoogle: ConfigGoogle
+        private val configGoogle: ConfigGoogle,
+    private val configFacebook: ConfigFacebook
 ) {
     companion object {
         private val LOGGER by logger()
@@ -37,7 +39,8 @@ class ConfigResource @Inject constructor(
 
         val responseData = mapOf<String, Any?>(
                 "configPaypal" to configPaypal,
-                "configGoogle" to configGoogle
+                "configGoogle" to configGoogle,
+            "configFacebook" to configFacebook
         )
 
         return Response.ok(responseData).build()
