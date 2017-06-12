@@ -2,8 +2,11 @@ package com.example.demo
 
 import com.example.demo.configuration.AppConfiguration
 import com.example.demo.configuration.ConfigFacebook
-import com.example.demo.configuration.ConfigGoogle
+import com.example.demo.resources.ConfigResource
 import io.dropwizard.testing.ResourceHelpers
+import org.amshove.kluent.`should be instance of`
+import org.amshove.kluent.`should contain`
+import org.amshove.kluent.`should equal`
 import org.junit.Rule
 import org.junit.Test
 import ru.vyarus.dropwizard.guice.injector.lookup.InjectorLookup
@@ -14,22 +17,42 @@ class BasicApplicationTestGuicey {
 
     // see: https://xvik.github.io/dropwizard-guicey/4.0.1/guide/test/
 
-
     @Rule @JvmField
     val RULE: GuiceyAppRule<AppConfiguration> = GuiceyAppRule<AppConfiguration>(
-        BasicApplication::class.java,
-        ResourceHelpers.resourceFilePath("test-config.yml")
-        //"src/test/resources/test-config.yml"
+            BasicApplication::class.java,
+            ResourceHelpers.resourceFilePath("test-config.yml")
     )
 
     @Test
-    fun testFoo() {
-        println("foo")
-
+    fun `rule returns ConfigFacebook`() {
         val fb = RULE.getBean(ConfigFacebook::class.java)
-        //val fb = injector.getInstance(ConfigFacebook::class.java)
-        val injector = InjectorLookup.getInjector(RULE.getApplication()).get()
-        val google = injector.getInstance(ConfigGoogle::class.java)
-        println("foo")
+
+        fb `should be instance of` ConfigFacebook::class
+        fb.apiKey `should contain` "facebook"
     }
+
+    @Test
+    fun `injector returns ConfigFacebook`() {
+        val injector = InjectorLookup.getInjector(RULE.getApplication()).get()
+        val fb = injector.getInstance(ConfigFacebook::class.java)
+
+        fb `should be instance of` ConfigFacebook::class
+        fb.apiKey `should contain` "facebook"
+    }
+
+    @Test
+    fun `resource returns valid response`() {
+        val injector = InjectorLookup.getInjector(RULE.getApplication()).get()
+        val resource = injector.getInstance(ConfigResource::class.java)
+        val response = resource.describe()
+
+        response.status `should equal` 200
+
+        val entity = response.entity as ConfigResource.ConfigResourceDescribeResponse
+
+        entity.configFacebook.apiKey `should contain` "facebook"
+        entity.configGoogle.apiKey `should contain` "google"
+        entity.configPaypal.apiKey `should contain` "paypal"
+    }
+
 }

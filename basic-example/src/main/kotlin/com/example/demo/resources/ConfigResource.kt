@@ -32,17 +32,24 @@ class ConfigResource @Inject constructor(
     @ApiOperation(
             value = "",
             notes = "",
-            response = Map::class
+            response = ConfigResourceDescribeResponse::class
     )
     fun describe(): Response {
         LOGGER.info("/describe $this")
 
-        val responseData = mapOf<String, Any?>(
-                "configPaypal" to configPaypal,
-                "configGoogle" to configGoogle,
-            "configFacebook" to configFacebook
+        val responseData = ConfigResourceDescribeResponse(
+                configPaypal = configPaypal,
+                configGoogle = configGoogle,
+                configFacebook = configFacebook
         )
 
         return Response.ok(responseData).build()
     }
+
+    data class ConfigResourceDescribeResponse(
+            val configPaypal:ConfigPaypal,
+            val configGoogle: ConfigGoogle,
+            val configFacebook: ConfigFacebook
+    )
 }
+
