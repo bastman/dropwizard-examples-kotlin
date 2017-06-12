@@ -35,7 +35,7 @@ class ConfigResource @Inject constructor(
             response = ConfigResourceDescribeResponse::class
     )
     fun describe(): Response {
-        LOGGER.info("/describe $this")
+        LOGGER.info("!!!!!!! /describe $this")
 
         val responseData = ConfigResourceDescribeResponse(
                 configPaypal = configPaypal,

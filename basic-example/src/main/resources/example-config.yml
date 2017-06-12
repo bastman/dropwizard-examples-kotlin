@@ -6,10 +6,28 @@ server:
   connector:
     type: http
     port: 8080
+#  requestLog:
+#    type: classic
+#    appenders:
+#      - type: logstash-console
 
+#  requestLog:
+#    appenders:
+#      - type: console
+#        name: request-log-console-json
+#        includeContextName: false
 swagger:
   resourcePackage: com.example.demo
 
+#logging:
+#  appenders:
+#    - type: logstash-console
+
+logging:
+  appenders:
+    - type: console
+      #layout:
+      #- type = JSONLayout
 paypal:
   apiKey: paypalApiKey
 

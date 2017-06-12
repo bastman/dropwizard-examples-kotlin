@@ -18,7 +18,10 @@ import ru.vyarus.guice.validator.ImplicitValidationModule
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
-
+import net.logstash.logback.encoder.LogstashEncoder
+import ch.qos.logback.core.encoder.LayoutWrappingEncoder
+import ch.qos.logback.contrib.jackson.JacksonJsonFormatter
+import ch.qos.logback.contrib.json.classic.JsonLayout
 fun main(args: Array<String>) {
     BasicApplication().run(*args)
 }
