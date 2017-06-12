@@ -42,8 +42,7 @@ class BasicApplicationTestGuicey {
 
     @Test
     fun `resource returns valid response`() {
-        val injector = InjectorLookup.getInjector(RULE.getApplication()).get()
-        val resource = injector.getInstance(ConfigResource::class.java)
+        val resource = RULE.getBean(ConfigResource::class.java)
         val response = resource.describe()
 
         response.status `should equal` 200
