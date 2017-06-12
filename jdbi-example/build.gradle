@@ -26,4 +26,9 @@ dependencies {
     // testing dropwizard & guice
     testCompile group: 'io.dropwizard', name: 'dropwizard-testing', version: dropwizardVersion
     testCompile group: 'com.google.inject.extensions', name: 'guice-testlib', version: guiceTestlibVersion
+
+    testCompile group: 'io.dropwizard.modules', name: 'dropwizard-flyway', version: '1.1.0-1'
+// https://mvnrepository.com/artifact/org.flywaydb/flyway-core
+    compile group: 'org.flywaydb', name: 'flyway-core', version: '4.2.0'
+
 }

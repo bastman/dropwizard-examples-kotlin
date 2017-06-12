@@ -12,15 +12,6 @@ fun createApplicationJdbiProvider(fn: (configuration: AppConfiguration, environm
     val dbiProvider: ConfigAwareProvider<DBI, AppConfiguration> = object : ConfigAwareProvider<DBI, AppConfiguration> {
         override fun get(configuration: AppConfiguration, environment: Environment): DBI {
             return fn(configuration, environment)
-            /*
-            val jdbi = DBIFactory().build(environment, configuration.database, "database")
-
-            //jdbi.installPlugin(KotlinPlugin())
-            //jdbi.installPlugin(KotlinSqlObjectPlugin());
-            //jdbi.registerArgumentFactory(InstantAsSqlTimestampArgument())
-            // jdbi.onDemand()
-            return jdbi
-            */
         }
     }
 
