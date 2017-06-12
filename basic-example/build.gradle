@@ -25,12 +25,10 @@ dependencies {
     compile 'org.glassfish.web:javax.el:2.2.6'
 
     // testing
-    testCompile project(':common') // ???
+    testCompile("org.amshove.kluent:kluent:$kluentVersion")
+    testCompile("com.nhaarman:mockito-kotlin:$mockitoKotlinVersion")
     // testing dropwizard & guice
     testCompile group: 'io.dropwizard', name: 'dropwizard-testing', version: dropwizardVersion
     testCompile group: 'com.google.inject.extensions', name: 'guice-testlib', version: guiceTestlibVersion
     // testing (kluent assertions, mockito)
-    testCompile("org.amshove.kluent:kluent:$kluentVersion")
-    testCompile("com.nhaarman:mockito-kotlin:$mockitoKotlinVersion")
-
 }
