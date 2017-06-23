@@ -1,27 +1,21 @@
 package com.example.demo
 
 import com.example.demo.configuration.AppConfiguration
-import com.example.demo.configuration.AppModule
-import com.example.demo.configuration.configureApplicationJsonObjectMapper
-import com.example.demo.configuration.createApplicationSwaggerBundle
+import com.example.demo.configuration.guice.AppModule
 import com.example.demo.logging.logger
 import com.google.inject.Stage
 import io.dropwizard.Application
 import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import ru.vyarus.dropwizard.guice.GuiceBundle
 import ru.vyarus.dropwizard.guice.injector.lookup.InjectorLookup
 import ru.vyarus.guice.validator.ImplicitValidationModule
-import java.time.Duration
-import java.util.concurrent.TimeUnit
 
-import net.logstash.logback.encoder.LogstashEncoder
-import ch.qos.logback.core.encoder.LayoutWrappingEncoder
-import ch.qos.logback.contrib.jackson.JacksonJsonFormatter
-import ch.qos.logback.contrib.json.classic.JsonLayout
+import com.example.demo.configuration.json.JacksonObjectMapperProvider
+import com.example.demo.configuration.logging.LoggingBundlesProvider
+import com.example.demo.configuration.properties.ConfigurationPropertiesBundleProvider
+import com.example.demo.configuration.swagger.SwaggerBundleProvider
+
 fun main(args: Array<String>) {
     BasicApplication().run(*args)
 }
@@ -34,11 +28,18 @@ class BasicApplication : Application<AppConfiguration>() {
     override fun initialize(bootstrap: Bootstrap<AppConfiguration>) {
         super.initialize(bootstrap)
 
-        // must be first, to be able to parse json/yml config files !!!!
-        configureApplicationJsonObjectMapper(bootstrap.objectMapper)
+        // jackson: must be first, to be able to parse config files (json/yml/conf) !!!!
+        JacksonObjectMapperProvider.bootstrap(bootstrap)
+        // configuration properties
+        ConfigurationPropertiesBundleProvider.bootstrap(bootstrap)
+        // logging
+        LoggingBundlesProvider.bootstrap(bootstrap)
+        // swagger
+        SwaggerBundleProvider.bootstrap(bootstrap)
 
-        bootstrap.addBundle(createApplicationSwaggerBundle { it.swaggerBundleConfiguration })
         bootstrap.addBundle(createGuiceBundle())
+
+        LOGGER.info("bootstrap complete.")
     }
 
     override fun run(configuration: AppConfiguration, environment: Environment) {

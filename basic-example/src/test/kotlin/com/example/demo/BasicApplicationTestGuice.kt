@@ -1,6 +1,7 @@
 package com.example.demo
 
 import com.example.demo.configuration.*
+import com.example.demo.configuration.guice.AppModule
 import com.example.demo.resources.ConfigResource
 import com.google.inject.Guice
 import com.google.inject.Provides

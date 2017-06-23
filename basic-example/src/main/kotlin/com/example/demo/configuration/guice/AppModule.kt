@@ -1,12 +1,17 @@
-package com.example.demo.configuration
+package com.example.demo.configuration.guice
 
+import com.example.demo.configuration.AppConfiguration
+import com.example.demo.configuration.ConfigFacebook
+import com.example.demo.configuration.ConfigGoogle
+import com.example.demo.configuration.ConfigPaypal
 import com.example.demo.logging.AppLogger
+import com.example.demo.logging.logger
 import com.google.inject.Provides
 import ru.vyarus.dropwizard.guice.module.support.DropwizardAwareModule
 import javax.inject.Singleton
 
 class AppModule : DropwizardAwareModule<AppConfiguration>() {
-    private val LOGGER = AppLogger(this::class.java)
+    private val LOGGER by logger()
 
     @Provides @Singleton
     fun provideConfigGoogle(configuration: AppConfiguration): ConfigGoogle = configuration.google

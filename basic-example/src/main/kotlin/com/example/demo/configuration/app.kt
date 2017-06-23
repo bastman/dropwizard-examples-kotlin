@@ -12,12 +12,12 @@ import javax.validation.constraints.NotNull
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class AppConfiguration @Inject constructor(
         @JsonProperty("swagger")
-        val swaggerBundleConfiguration: SwaggerBundleConfiguration,
+        val swagger: SwaggerBundleConfiguration,
         @JsonProperty("paypal")
         val paypal: ConfigPaypal,
         @JsonProperty("google")
         val google: ConfigGoogle,
-    @JsonProperty("facebook")
+        @JsonProperty("facebook")
     @Valid @NotNull
     val facebook: ConfigFacebook
 ) : io.dropwizard.Configuration() {

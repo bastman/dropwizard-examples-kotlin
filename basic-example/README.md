@@ -2,4 +2,4 @@
 
 ## run
     - Main Class: com.example.demo.BasicApplication
-    - Program Arguments: server basic-example/src/main/resources/example-config.yml
+    - Program Arguments: server config-local.conf

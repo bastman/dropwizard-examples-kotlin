@@ -1,10 +1,11 @@
 package com.example.demo.configuration
 
-import com.example.demo.logging.AppLogger
+import com.example.demo.logging.logger
 import io.dropwizard.lifecycle.Managed
 
 class AppBootstrap : Managed {
-    private val LOGGER = AppLogger(this::class.java)
+    private val LOGGER by logger()
+
     override fun start() {
         LOGGER.info("start()")
     }
